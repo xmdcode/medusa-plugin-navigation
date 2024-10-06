@@ -2,12 +2,19 @@ import React, { useState } from 'react';
 import { SortableTree, TreeItems } from 'dnd-kit-sortable-tree';
 import { TreeItem } from './TreeItem';
 
-export const TreeNavigation = () => {
-  const [items, setItems] = useState(initialViableMinimalData);
+interface TreeNavigationProps {
+  items: any;
+  setItems: React.Dispatch<any>;
+}
+
+export const TreeNavigation: React.FC<TreeNavigationProps> = (props) => {
+  const { items, setItems } = props;
+  // const [items, setItems] = useState(initialViableMinimalData);
+
   return (
     <SortableTree
       items={items}
-      onItemsChanged={setItems}
+      onItemsChanged={(newItems) => setItems(newItems)}
       TreeItemComponent={TreeItem}
     />
   );

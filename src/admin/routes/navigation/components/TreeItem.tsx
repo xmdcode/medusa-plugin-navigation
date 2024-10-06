@@ -12,6 +12,7 @@ export const TreeItem = React.forwardRef<
 >((props, ref) => {
   const [sample, setSample] = React.useState('');
 
+  console.log(props);
   const handleEdit = (e) => {
     e.stopPropagation();
   };
@@ -26,12 +27,12 @@ export const TreeItem = React.forwardRef<
       contentClassName="w-full">
       <div className="w-full flex items-center justify-between">
         <div>{props.item.value}</div>
-        <div className="flex items-center">
-          <Button type="button" onClick={handleEdit} variant="secondary">
+        <div className="flex items-center space-x-2">
+          <Button variant="secondary" onClick={handleEdit}>
             Edit
           </Button>
-          <Button type="button" onClick={handleDelete} variant="secondary">
-            Delete
+          <Button variant="secondary" onClick={handleDelete}>
+            Edit
           </Button>
         </div>
       </div>

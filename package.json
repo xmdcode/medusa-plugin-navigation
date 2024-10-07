@@ -49,7 +49,7 @@
     "medusa-payment-stripe": "6.0.11",
     "medusa-react": "^9.0.18",
     "prism-react-renderer": "^2.0.4",
-    "typeorm": "0.3.16"
+    "typeorm": "0.3.20"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.3",

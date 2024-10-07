@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SortableTree, TreeItems } from 'dnd-kit-sortable-tree';
 import { TreeItem } from './TreeItem';
+import { FlattenedItem } from 'dnd-kit-sortable-tree/dist/types';
 
 interface TreeNavigationProps {
   items: any;
@@ -11,19 +12,26 @@ export const TreeNavigation: React.FC<TreeNavigationProps> = (props) => {
   const { items, setItems } = props;
   // const [items, setItems] = useState(initialViableMinimalData);
 
+  // const handleChildren = (dragItem: FlattenedItem<MinimalTreeItemData>) => {
+  //   console.log(dragItem);
+  //   return true;
+  // };
+
+  console.log(items);
   return (
     <SortableTree
       items={items}
+      // canRootHaveChildren={handleChildren}
       onItemsChanged={(newItems) => setItems(newItems)}
       TreeItemComponent={TreeItem}
     />
   );
 };
 
-export type MinimalTreeItemData = {
+export interface MinimalTreeItemData {
   name: string;
   url: string;
-};
+}
 /*
  * Here's the component that will render a single row of your tree
  */

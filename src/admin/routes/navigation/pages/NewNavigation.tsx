@@ -4,11 +4,50 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, PlusMini, Sparkles } from '@medusajs/icons';
 import { TreeNavigation } from '../components/TreeNavigation';
 import AddNewItem from '../components/Modals/AddNewItem';
+import EditItem from '../components/Modals/EditItem';
+import {
+  NavigationContext,
+  useNavigationData,
+} from '../components/context/NavigationItemsContext';
 
-const NewMenu = () => {
+const NewNavigation = () => {
   const navigate = useNavigate();
-  const [isNewModalOpen, setIsNewModalOpen] = useState<boolean>(false);
-  const [items, setItems] = React.useState([]);
+  const {
+    isNewModalOpen,
+    setIsEditModalOpen,
+    isEditModalOpen,
+    setIsNewModalOpen,
+  } = useNavigationData();
+
+  const items1 = [
+    {
+      id: crypto.randomUUID(),
+      name: '1',
+      url: '1',
+    },
+    {
+      id: crypto.randomUUID(),
+      name: '2',
+      url: '2',
+    },
+    {
+      id: crypto.randomUUID(),
+      name: '3',
+      url: '3',
+    },
+    {
+      id: crypto.randomUUID(),
+      name: '4',
+      url: '4',
+    },
+    {
+      id: crypto.randomUUID(),
+      name: '5',
+      url: '5',
+      canHaveChildren: false,
+    },
+  ];
+  const [items, setItems] = React.useState(items1);
 
   const handleAddNew = () => {
     setIsNewModalOpen(true);
@@ -54,13 +93,10 @@ const NewMenu = () => {
           </div>
         </div>
       </Container>
-      <AddNewItem
-        open={isNewModalOpen}
-        close={() => setIsNewModalOpen(false)}
-        setNewItem={(item) => setItems((prev) => [...prev, item])}
-      />
+      <AddNewItem setNewItem={(item) => setItems((prev) => [...prev, item])} />
+      <EditItem />
     </>
   );
 };
 
-export default NewMenu;
+export default NewNavigation;

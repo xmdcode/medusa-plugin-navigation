@@ -26,13 +26,13 @@ export const TreeItem = React.forwardRef<
       className="w-full"
       contentClassName="w-full">
       <div className="w-full flex items-center justify-between">
-        <div>{props.item.value}</div>
+        <div>{props.item.name}</div>
         <div className="flex items-center space-x-2">
           <Button variant="secondary" onClick={handleEdit}>
             Edit
           </Button>
           <Button variant="secondary" onClick={handleDelete}>
-            Edit
+            Delete
           </Button>
         </div>
       </div>

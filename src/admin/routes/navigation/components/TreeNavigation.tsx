@@ -21,7 +21,8 @@ export const TreeNavigation: React.FC<TreeNavigationProps> = (props) => {
 };
 
 export type MinimalTreeItemData = {
-  value: string;
+  name: string;
+  url: string;
 };
 /*
  * Here's the component that will render a single row of your tree
@@ -33,12 +34,18 @@ export type MinimalTreeItemData = {
 const initialViableMinimalData: TreeItems<MinimalTreeItemData> = [
   {
     id: 1,
-    value: 'Jane',
+    name: 'Jane',
+    url: '#',
     children: [
-      { id: 4, value: 'John' },
-      { id: 5, value: 'Sally' },
+      { id: 4, url: '#', name: 'John' },
+      { id: 5, url: '#', name: 'Sally' },
     ],
   },
-  { id: 2, value: 'Fred', children: [{ id: 6, value: 'Eugene' }] },
-  { id: 3, value: 'Helen' },
+  {
+    id: 2,
+    url: '#',
+    name: 'Fred',
+    children: [{ id: 6, url: '#', name: 'Eugene' }],
+  },
+  { id: 3, url: '#', name: 'Helen' },
 ];

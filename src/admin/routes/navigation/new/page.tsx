@@ -14,7 +14,6 @@ const NewMenu = () => {
     setIsNewModalOpen(true);
   };
 
-  console.log(items);
   return (
     <>
       <Container>
@@ -45,10 +44,12 @@ const NewMenu = () => {
                 <Sparkles />
               </Container>
             ) : (
-              <TreeNavigation
-                items={items}
-                setItems={(newItems) => setItems(newItems)}
-              />
+              <>
+                <TreeNavigation
+                  items={items}
+                  setItems={(newItems) => setItems(newItems)}
+                />
+              </>
             )}
           </div>
         </div>
@@ -56,7 +57,7 @@ const NewMenu = () => {
       <AddNewItem
         open={isNewModalOpen}
         close={() => setIsNewModalOpen(false)}
-        setNewItem={(item) => setItems((prev) => ({ ...prev, item }))}
+        setNewItem={(item) => setItems((prev) => [...prev, item])}
       />
     </>
   );

@@ -1,18 +1,14 @@
 import { useState } from 'react';
 import { Button, Drawer, Input, Label } from '@medusajs/ui';
+import { ModalProps } from './AddNewItem';
 import { useNavigationData } from '../context/NavigationItemsContext';
 
-export interface ModalProps {
-  setNewItem?(arg0: any): void;
-}
-const AddNewItem: React.FC<ModalProps> = (props) => {
-  const { setNewItem } = props;
-
-  const { isNewModalOpen, setIsNewModalOpen } = useNavigationData();
-
+const EditItem = () => {
+  const { isEditModalOpen, setIsEditModalOpen } = useNavigationData();
   const handleClose = () => {
-    setIsNewModalOpen(false);
+    setIsEditModalOpen(false);
   };
+
   const [errors, SetErrors] = useState({});
 
   const handleSubmit = (e) => {
@@ -33,13 +29,12 @@ const AddNewItem: React.FC<ModalProps> = (props) => {
     }
 
     if (name && url) {
-      setNewItem({ id: Math.random().toFixed(2), name, url });
       handleClose();
     }
   };
 
   return (
-    <Drawer open={isNewModalOpen}>
+    <Drawer open={isEditModalOpen}>
       <Drawer.Content
         onInteractOutside={handleClose}
         className="max-w-[560px] h-full rounded-none inset-0 right-0 top-0 bottom-0 left-auto z-[10]">
@@ -83,4 +78,4 @@ const AddNewItem: React.FC<ModalProps> = (props) => {
   );
 };
 
-export default AddNewItem;
+export default EditItem;

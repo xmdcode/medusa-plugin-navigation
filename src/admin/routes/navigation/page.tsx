@@ -75,6 +75,7 @@ import { Route, Routes, Outlet, Router } from 'react-router-dom';
 import { NavigationsPage } from './pages/Navigations';
 import { NavigationContextProvider } from './components/context/NavigationItemsContext';
 import NewNavigation from './pages/NewNavigation';
+import ExistingNavigation from './pages/ExistingNavigation';
 
 const NavigationPage = () => {
   return (
@@ -88,6 +89,7 @@ const NavigationPage = () => {
         }>
         <Route index element={<NavigationsPage />} />
         <Route path="new" element={<NewNavigation />} />
+        <Route path="/:id" element={<ExistingNavigation />} />
       </Route>
     </Routes>
   );

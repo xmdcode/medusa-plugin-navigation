@@ -15,6 +15,10 @@ interface NavigationContextProvider extends PropsWithChildren {
   setIsEditModalOpen: Dispatch<SetStateAction<boolean>>;
   activeItem: MinimalTreeItemData;
   setActiveItem: Dispatch<SetStateAction<MinimalTreeItemData>>;
+  items: MinimalTreeItemData[];
+  setItems: Dispatch<SetStateAction<MinimalTreeItemData[]>>;
+  page: string;
+  setPage: Dispatch<SetStateAction<string>>;
 }
 
 export const NavigationContext = createContext(null);
@@ -29,6 +33,8 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
   const [isNewModalOpen, setIsNewModalOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<MinimalTreeItemData>();
+  const [items, setItems] = useState<MinimalTreeItemData[]>([]);
+  const [page, setPage] = useState('');
 
   return (
     <NavigationContext.Provider
@@ -39,6 +45,10 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
         setIsEditModalOpen,
         activeItem,
         setActiveItem,
+        items,
+        setItems,
+        page,
+        setPage,
       }}>
       {children}
     </NavigationContext.Provider>

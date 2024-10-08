@@ -4,7 +4,8 @@ import { ModalProps } from './AddNewItem';
 import { useNavigationData } from '../context/NavigationItemsContext';
 
 const EditItem = () => {
-  const { isEditModalOpen, setIsEditModalOpen } = useNavigationData();
+  const { isEditModalOpen, setIsEditModalOpen, activeItem } =
+    useNavigationData();
   const handleClose = () => {
     setIsEditModalOpen(false);
   };
@@ -13,13 +14,13 @@ const EditItem = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
+    const title = e.target.title.value;
     const url = e.target.url.value;
 
-    if (!name) {
-      SetErrors((prev) => ({ ...prev, name: true }));
+    if (!title) {
+      SetErrors((prev) => ({ ...prev, title: true }));
     } else {
-      SetErrors((prev) => ({ ...prev, name: false }));
+      SetErrors((prev) => ({ ...prev, title: false }));
     }
 
     if (!url) {
@@ -28,7 +29,7 @@ const EditItem = () => {
       SetErrors((prev) => ({ ...prev, url: false }));
     }
 
-    if (name && url) {
+    if (title && url) {
       handleClose();
     }
   };
@@ -49,9 +50,10 @@ const EditItem = () => {
               </Label>
               <Input
                 placeholder="ex. Menu Item 1"
+                defaultValue={activeItem?.title}
                 id="name"
-                name="name"
-                aria-invalid={errors['name'] ? true : false}
+                name="title"
+                aria-invalid={errors['title'] ? true : false}
               />
             </div>
             <div className="w-full flex flex-col space-y-2">
@@ -60,6 +62,7 @@ const EditItem = () => {
               </Label>
               <Input
                 placeholder="ex. /shoes"
+                defaultValue={activeItem?.url}
                 id="shoes"
                 name="url"
                 aria-invalid={errors['url'] ? true : false}

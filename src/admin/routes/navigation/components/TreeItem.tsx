@@ -15,21 +15,21 @@ export const TreeItem = React.forwardRef<
   const handleEdit = (e) => {
     e.stopPropagation();
     setIsEditModalOpen(true);
-    setActiveItem({ name: props.item.name, url: props.item.url });
+    setActiveItem({ title: props.item.title, url: props.item.url });
   };
   const handleDelete = (e) => {
     e.stopPropagation();
   };
+
   return (
     <SimpleTreeItemWrapper
       {...props}
-      isLast={props.depth >= 2 ? true : false}
-      isOver={props.depth >= 2 ? true : false}
       ref={ref}
       className="w-full"
+      disableSorting={props.depth >= 2}
       contentClassName="w-full">
       <div className="w-full flex items-center justify-between">
-        <div>{props.item.name}</div>
+        <div>{props.item.title}</div>
         <div className="flex items-center space-x-2">
           <Button variant="secondary" onClick={handleEdit}>
             Edit

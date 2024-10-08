@@ -17,13 +17,13 @@ const AddNewItem: React.FC<ModalProps> = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
+    const title = e.target.name.value;
     const url = e.target.url.value;
 
-    if (!name) {
-      SetErrors((prev) => ({ ...prev, name: true }));
+    if (!title) {
+      SetErrors((prev) => ({ ...prev, title: true }));
     } else {
-      SetErrors((prev) => ({ ...prev, name: false }));
+      SetErrors((prev) => ({ ...prev, title: false }));
     }
 
     if (!url) {
@@ -32,8 +32,8 @@ const AddNewItem: React.FC<ModalProps> = (props) => {
       SetErrors((prev) => ({ ...prev, url: false }));
     }
 
-    if (name && url) {
-      setNewItem({ id: Math.random().toFixed(2), name, url });
+    if (title && url) {
+      setNewItem({ id: Math.random().toFixed(2), title, url });
       handleClose();
     }
   };
@@ -55,8 +55,8 @@ const AddNewItem: React.FC<ModalProps> = (props) => {
               <Input
                 placeholder="ex. Menu Item 1"
                 id="name"
-                name="name"
-                aria-invalid={errors['name'] ? true : false}
+                name="title"
+                aria-invalid={errors['title'] ? true : false}
               />
             </div>
             <div className="w-full flex flex-col space-y-2">

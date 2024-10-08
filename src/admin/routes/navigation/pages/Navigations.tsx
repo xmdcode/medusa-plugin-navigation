@@ -2,7 +2,7 @@ import type { RouteConfig } from '@medusajs/admin';
 import { useAdminCustomQuery } from 'medusa-react';
 import { Button, Container, Table, Text } from '@medusajs/ui';
 import { PlusMini } from '@medusajs/icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export const NavigationsPage = () => {
   const { data: navigationsData, isLoading } = useAdminCustomQuery(
@@ -54,7 +54,11 @@ export const NavigationsPage = () => {
                 return (
                   <Table.Row key={navigation.id}>
                     <Table.Cell className="w-[250px]">
-                      {navigation.name}
+                      <Link
+                        to={`/a/navigation/${navigation.id}`}
+                        className="hover:text-blue-60 duration-100 transition ease-in-out">
+                        {navigation.name}
+                      </Link>
                     </Table.Cell>
                     <Table.Cell>{navigation.items}</Table.Cell>
                   </Table.Row>

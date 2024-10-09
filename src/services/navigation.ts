@@ -103,12 +103,12 @@ class NavigationService extends TransactionBaseService {
 
     const createItemsRecursively = async (items, parent = null) => {
       for (const itemData of items) {
-        const { title, url, children = [] } = itemData;
+        const { name, url, children = [] } = itemData;
 
         // Create the navigation item
         const navigationItem = navigationItemRepo.create({
-          title,
           url,
+          name,
           parent,
           navigation: { id: navigationId }, // Link to the navigation
         });

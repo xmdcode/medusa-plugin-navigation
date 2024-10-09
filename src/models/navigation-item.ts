@@ -18,7 +18,7 @@ export class NavigationItem extends BaseEntity {
   id: string;
 
   @Column()
-  title: string;
+  name: string;
 
   @Column({ nullable: true })
   url: string;

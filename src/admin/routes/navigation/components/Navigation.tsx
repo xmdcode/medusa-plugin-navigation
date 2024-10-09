@@ -11,6 +11,7 @@ import {
 } from '../components/TreeNavigation';
 import AddNewItem from '../components/Modals/AddNewItem';
 import EditItem from '../components/Modals/EditItem';
+import { useAdminCustomPost } from 'medusa-react';
 
 export interface NavigationProps {
   data?: MinimalTreeItemData[];
@@ -32,13 +33,24 @@ const Navigation: FC<NavigationProps> = (props) => {
     setIsNewModalOpen(true);
   };
 
+  const { mutate } = useAdminCustomPost('/navigations', ['navigationsadd']);
+
+  const handleClick = () => {};
   return (
     <>
       <Container>
-        <Button onClick={() => navigate('/a/navigation')} variant="transparent">
-          <ArrowLeft />
-          Back To Navigations
-        </Button>
+        <div className="flex items-center justify-between">
+          <Button
+            type="button"
+            onClick={() => navigate('/a/navigation')}
+            variant="transparent">
+            <ArrowLeft />
+            Back To Navigations
+          </Button>
+          <Button onClick={handleClick} variant="primary">
+            Save
+          </Button>
+        </div>
 
         <div className="flex flex-col">
           <div className="flex flex-col space-y-4">

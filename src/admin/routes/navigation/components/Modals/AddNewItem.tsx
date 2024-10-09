@@ -33,7 +33,7 @@ const AddNewItem: React.FC<ModalProps> = (props) => {
     }
 
     if (title && url) {
-      setNewItem({ id: Math.random().toFixed(2), title, url });
+      setNewItem({ id: crypto.randomUUID(), title, url });
       handleClose();
     }
   };

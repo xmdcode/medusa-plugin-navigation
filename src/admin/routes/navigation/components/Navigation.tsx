@@ -14,18 +14,24 @@ import EditItem from '../components/Modals/EditItem';
 
 export interface NavigationProps {
   data?: MinimalTreeItemData[];
+  navigationTitle?: string;
 }
 const Navigation: FC<NavigationProps> = (props) => {
-  const { data } = props;
+  const { data, navigationTitle } = props;
+
   const navigate = useNavigate();
+
   const [items, setItems] = useState<MinimalTreeItemData[]>(data ?? []);
+  const [navigationName, setNavigationName] = useState<string>(
+    navigationTitle ?? ''
+  );
+
   const { setIsNewModalOpen, page } = useNavigationData();
 
   const handleAddNew = () => {
     setIsNewModalOpen(true);
   };
 
-  console.log(data);
   return (
     <>
       <Container>
@@ -38,6 +44,8 @@ const Navigation: FC<NavigationProps> = (props) => {
           <div className="flex flex-col space-y-4">
             <Text>Title of {page === 'new' && 'New'} Navigation</Text>
             <Input
+              value={navigationName}
+              onChange={(e) => setNavigationName(e.target.value)}
               placeholder="Add Title for Navigation"
               id="navigation-title"
             />

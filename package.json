@@ -22,7 +22,8 @@
     "seed": "cross-env medusa seed -f ./data/seed.json",
     "start": "cross-env npm run build && medusa start",
     "start:custom": "cross-env npm run build && node --preserve-symlinks --trace-warnings index.js",
-    "dev": "cross-env npm run build:server && medusa develop"
+    "dev": "cross-env npm run build:server && medusa develop",
+    "migration": "npm run build && typeorm migration:generate -d datasource.js src/migrations/migrationcreate && npm run build && npx medusa migrations run"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",

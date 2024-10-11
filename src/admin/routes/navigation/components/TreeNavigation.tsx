@@ -34,6 +34,6 @@ export const TreeNavigation: React.FC<TreeNavigationProps> = (props) => {
 };
 
 export interface MinimalTreeItemData {
-  title: string;
+  name: string;
   url: string;
 }

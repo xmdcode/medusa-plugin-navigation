@@ -12,6 +12,7 @@ import {
 import AddNewItem from '../components/Modals/AddNewItem';
 import EditItem from '../components/Modals/EditItem';
 import { useAdminCustomPost } from 'medusa-react';
+import DeleteItem from './Modals/DeleteItem';
 
 export interface NavigationProps {
   data?: MinimalTreeItemData[];
@@ -35,7 +36,17 @@ const Navigation: FC<NavigationProps> = (props) => {
 
   const { mutate } = useAdminCustomPost('/navigations', ['navigationsadd']);
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    // console.log(items);
+    mutate(
+      { name: navigationName, items },
+      {
+        onSuccess: () => {
+          navigate('/a/navigation');
+        },
+      }
+    );
+  };
   return (
     <>
       <Container>
@@ -88,6 +99,7 @@ const Navigation: FC<NavigationProps> = (props) => {
       </Container>
       <AddNewItem setNewItem={(item) => setItems((prev) => [...prev, item])} />
       <EditItem />
+      <DeleteItem />
     </>
   );
 };

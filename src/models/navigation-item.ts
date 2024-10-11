@@ -23,13 +23,13 @@ export class NavigationItem extends BaseEntity {
   @Column({ nullable: true })
   url: string;
 
-  // New field for ordering
-  @Column({ type: 'int', default: 0 })
-  order: number;
-
   // Each NavigationItem can have multiple children (self-referencing tree structure)
   @TreeChildren()
   children: NavigationItem[];
+
+  // New field for ordering
+  @Column({ type: 'int', default: 0 })
+  index: number;
 
   // Each NavigationItem can have a parent (self-referencing tree structure)
   @TreeParent()

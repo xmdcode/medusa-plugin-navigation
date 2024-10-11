@@ -12,7 +12,7 @@ export const NavigationsPage = () => {
   const navigate = useNavigate();
   const tableData = navigationsData?.navigations?.map((navitem) => {
     const itemOnlyTitle = navitem.items
-      .map((navitemitem) => navitemitem.title)
+      .map((navitemitem) => navitemitem.name)
       .join(', ');
     return { ...navitem, items: itemOnlyTitle };
   });

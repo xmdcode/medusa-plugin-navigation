@@ -14,13 +14,13 @@ const EditItem = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const title = e.target.title.value;
+    const name = e.target.name.value;
     const url = e.target.url.value;
 
-    if (!title) {
-      SetErrors((prev) => ({ ...prev, title: true }));
+    if (!name) {
+      SetErrors((prev) => ({ ...prev, name: true }));
     } else {
-      SetErrors((prev) => ({ ...prev, title: false }));
+      SetErrors((prev) => ({ ...prev, name: false }));
     }
 
     if (!url) {
@@ -29,7 +29,7 @@ const EditItem = () => {
       SetErrors((prev) => ({ ...prev, url: false }));
     }
 
-    if (title && url) {
+    if (name && url) {
       handleClose();
     }
   };
@@ -50,7 +50,7 @@ const EditItem = () => {
               </Label>
               <Input
                 placeholder="ex. Menu Item 1"
-                defaultValue={activeItem?.title}
+                defaultValue={activeItem?.name}
                 id="name"
                 name="title"
                 aria-invalid={errors['title'] ? true : false}

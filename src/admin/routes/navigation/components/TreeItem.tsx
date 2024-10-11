@@ -11,14 +11,19 @@ export const TreeItem = React.forwardRef<
   HTMLDivElement,
   TreeItemComponentProps<MinimalTreeItemData>
 >((props, ref) => {
-  const { setIsEditModalOpen, setActiveItem } = useNavigationData();
+  const { setIsEditModalOpen, setActiveItem, setIsDeleteModalOpen } =
+    useNavigationData();
+
   const handleEdit = (e) => {
     e.stopPropagation();
     setIsEditModalOpen(true);
-    setActiveItem({ title: props.item.title, url: props.item.url });
+    setActiveItem({ name: props.item.name, url: props.item.url });
   };
+
   const handleDelete = (e) => {
     e.stopPropagation();
+    setIsDeleteModalOpen(true);
+    setActiveItem(props.item);
   };
 
   return (
@@ -29,7 +34,7 @@ export const TreeItem = React.forwardRef<
       disableSorting={props.depth >= 2}
       contentClassName="w-full">
       <div className="w-full flex items-center justify-between">
-        <div>{props.item.title}</div>
+        <div>{props.item.name}</div>
         <div className="flex items-center space-x-2">
           <Button variant="secondary" onClick={handleEdit}>
             Edit

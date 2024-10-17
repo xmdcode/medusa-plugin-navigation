@@ -1,4 +1,4 @@
-import type { RouteConfig } from '@medusajs/admin';
+import { useState } from 'react';
 import { useAdminCustomQuery } from 'medusa-react';
 import { Button, Container, Table, Text } from '@medusajs/ui';
 import { PlusMini } from '@medusajs/icons';
@@ -7,8 +7,9 @@ import { useNavigate, Link } from 'react-router-dom';
 export const NavigationsPage = () => {
   const { data: navigationsData, isLoading } = useAdminCustomQuery(
     'navigations',
-    [['navigations']]
+    ['navigations']
   );
+
   const navigate = useNavigate();
   const tableData = navigationsData?.navigations?.map((navitem) => {
     const itemOnlyTitle = navitem.items

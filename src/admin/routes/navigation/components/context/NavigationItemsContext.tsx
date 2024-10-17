@@ -5,8 +5,10 @@ import {
   Dispatch,
   SetStateAction,
   useContext,
+  useEffect,
 } from 'react';
 import { MinimalTreeItemData } from '../TreeNavigation';
+import { useAdminCustomQuery } from 'medusa-react';
 
 interface NavigationContextProvider extends PropsWithChildren {
   isNewModalOpen: boolean;
@@ -21,6 +23,10 @@ interface NavigationContextProvider extends PropsWithChildren {
   setPage: Dispatch<SetStateAction<string>>;
   isDeleteModalOpen: boolean;
   setIsDeleteModalOpen: Dispatch<SetStateAction<boolean>>;
+  navigationId: string;
+  setNavigationId: Dispatch<SetStateAction<string>>;
+  navigationName: string;
+  setNavigationName: Dispatch<SetStateAction<string>>;
 }
 
 export const NavigationContext = createContext(null);
@@ -36,8 +42,10 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<MinimalTreeItemData>();
-  const [items, setItems] = useState<MinimalTreeItemData[]>([]);
   const [page, setPage] = useState('');
+  const [navigationId, setNavigationId] = useState<string>('');
+  const [items, setItems] = useState<MinimalTreeItemData[]>([]);
+  const [navigationName, setNavigationName] = useState<string>('');
 
   return (
     <NavigationContext.Provider
@@ -54,6 +62,10 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
         setItems,
         page,
         setPage,
+        navigationId,
+        setNavigationId,
+        navigationName,
+        setNavigationName,
       }}>
       {children}
     </NavigationContext.Provider>

@@ -14,21 +14,16 @@ import EditItem from '../components/Modals/EditItem';
 import { useAdminCustomPost } from 'medusa-react';
 import DeleteItem from './Modals/DeleteItem';
 
-export interface NavigationProps {
-  data?: MinimalTreeItemData[];
-  navigationTitle?: string;
-}
-const Navigation: FC<NavigationProps> = (props) => {
-  const { data, navigationTitle } = props;
-
+const Navigation = () => {
   const navigate = useNavigate();
-
-  const [items, setItems] = useState<MinimalTreeItemData[]>(data ?? []);
-  const [navigationName, setNavigationName] = useState<string>(
-    navigationTitle ?? ''
-  );
-
-  const { setIsNewModalOpen, page } = useNavigationData();
+  const {
+    setIsNewModalOpen,
+    page,
+    setItems,
+    items,
+    navigationName,
+    setNavigationName,
+  } = useNavigationData();
 
   const handleAddNew = () => {
     setIsNewModalOpen(true);
@@ -47,6 +42,7 @@ const Navigation: FC<NavigationProps> = (props) => {
       }
     );
   };
+
   return (
     <>
       <Container>
@@ -81,7 +77,7 @@ const Navigation: FC<NavigationProps> = (props) => {
             </Button>
           </div>
           <div className="w-full">
-            {items.length === 0 ? (
+            {items?.length === 0 ? (
               <Container className="flex items-center justify-center space-x-1">
                 <Text>Add Some Items to see the magic!</Text>
                 <Sparkles />
@@ -99,7 +95,7 @@ const Navigation: FC<NavigationProps> = (props) => {
       </Container>
       <AddNewItem setNewItem={(item) => setItems((prev) => [...prev, item])} />
       <EditItem />
-      <DeleteItem />
+      <DeleteItem  />
     </>
   );
 };

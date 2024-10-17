@@ -1,19 +1,25 @@
 import { Prompt } from '@medusajs/ui';
 import { useNavigationData } from '../context/NavigationItemsContext';
+import { removeItemById } from '../utils/list-utils';
 
 const DeleteItem = () => {
-  const { isDeleteModalOpen, setIsDeleteModalOpen, activeItem } =
-    useNavigationData();
+  const {
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+    items,
+    activeItem,
+    setItems,
+  } = useNavigationData();
 
   const closeModal = () => {
     setIsDeleteModalOpen(false);
   };
 
   const handleDelete = () => {
+    setItems(removeItemById(items, activeItem.id));
     closeModal();
   };
 
-  console.log(activeItem);
   return (
     <Prompt open={isDeleteModalOpen}>
       <Prompt.Content>

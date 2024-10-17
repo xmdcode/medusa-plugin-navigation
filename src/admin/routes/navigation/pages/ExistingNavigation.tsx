@@ -1,20 +1,28 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navigation from '../components/Navigation';
+import { useNavigationData } from '../components/context/NavigationItemsContext';
 import { useAdminCustomQuery } from 'medusa-react';
-import { NavigationItem } from 'src/models/navigation-item';
 
 const ExistingNavigation = () => {
   const { id } = useParams();
-  const { data, isLoading } = useAdminCustomQuery(`/navigations/${id}`, [
-    'navigations',
-  ]);
+  const { setItems, setNavigationName } = useNavigationData();
+
+  const { data, isLoading, isError } = useAdminCustomQuery(
+    `/navigations/${id}`,
+    ['navigations']
+  );
+
+  useEffect(() => {
+    if (!isError && !isLoading) {
+      setItems(data?.items);
+      setNavigationName(data?.name);
+    }
+  }, [isError, isLoading]);
 
   return (
     <>
-      {!isLoading && (
-        <Navigation navigationTitle={data.name} data={data.items} />
-      )}
+      <Navigation />
     </>
   );
 };

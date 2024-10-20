@@ -14,7 +14,12 @@ import EditItem from '../components/Modals/EditItem';
 import { useAdminCustomPost } from 'medusa-react';
 import DeleteItem from './Modals/DeleteItem';
 
-const Navigation = () => {
+export interface NavigationProps {
+  id?: string;
+}
+const Navigation: React.FC<NavigationProps> = (props) => {
+  const { id } = props;
+
   const navigate = useNavigate();
   const {
     setIsNewModalOpen,
@@ -34,7 +39,7 @@ const Navigation = () => {
   const handleClick = () => {
     // console.log(items);
     mutate(
-      { name: navigationName, items },
+      { id: id ?? '', name: navigationName, items },
       {
         onSuccess: () => {
           navigate('/a/navigation');
@@ -95,7 +100,7 @@ const Navigation = () => {
       </Container>
       <AddNewItem setNewItem={(item) => setItems((prev) => [...prev, item])} />
       <EditItem />
-      <DeleteItem  />
+      <DeleteItem />
     </>
   );
 };

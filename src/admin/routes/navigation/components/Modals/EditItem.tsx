@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Button, Drawer, Input, Label } from '@medusajs/ui';
 import { ModalProps } from './AddNewItem';
 import { useNavigationData } from '../context/NavigationItemsContext';
+import { updateItemById, updateItemById1 } from '../utils/list-utils';
 
 const EditItem = () => {
-  const { isEditModalOpen, setIsEditModalOpen, activeItem } =
+  const { isEditModalOpen, setIsEditModalOpen, activeItem, items, setItems } =
     useNavigationData();
   const handleClose = () => {
     setIsEditModalOpen(false);
@@ -30,6 +31,8 @@ const EditItem = () => {
     }
 
     if (name && url) {
+      const updatedItems = updateItemById(items, activeItem.id, { name, url });
+      setItems(updatedItems);
       handleClose();
     }
   };

@@ -7,8 +7,8 @@ import {
   useContext,
   useEffect,
 } from 'react';
+import { useLocation } from 'react-router-dom';
 import { MinimalTreeItemData } from '../TreeNavigation';
-import { useAdminCustomQuery } from 'medusa-react';
 
 interface NavigationContextProvider extends PropsWithChildren {
   isNewModalOpen: boolean;

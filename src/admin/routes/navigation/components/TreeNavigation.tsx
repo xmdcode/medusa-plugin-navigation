@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SortableTree, TreeItems } from 'dnd-kit-sortable-tree';
 import { TreeItem } from './TreeItem';
 import { FlattenedItem } from 'dnd-kit-sortable-tree/dist/types';
+import { handleChildrenDepth } from './utils/list-utils';
 
 interface TreeNavigationProps {
   items: any;
@@ -10,19 +11,6 @@ interface TreeNavigationProps {
 
 export const TreeNavigation: React.FC<TreeNavigationProps> = (props) => {
   const { items, setItems } = props;
-
-  const handleChildrenDepth = (items) => {
-    return items?.map((item) => {
-      return {
-        ...item,
-        canHaveChildren: item.depth >= 2 ? false : true,
-        children:
-          item?.children?.length > 0
-            ? handleChildrenDepth(item?.children)
-            : item.children,
-      };
-    });
-  };
 
   return (
     <SortableTree
@@ -39,3 +27,4 @@ export interface MinimalTreeItemData {
   id?: string;
   children?: any;
 }
+

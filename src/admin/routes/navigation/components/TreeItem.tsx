@@ -17,7 +17,7 @@ export const TreeItem = React.forwardRef<
   const handleEdit = (e) => {
     e.stopPropagation();
     setIsEditModalOpen(true);
-    setActiveItem({ name: props.item.name, url: props.item.url });
+    setActiveItem(props.item);
   };
 
   const handleDelete = (e) => {

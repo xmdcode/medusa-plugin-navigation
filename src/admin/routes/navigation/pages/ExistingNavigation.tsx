@@ -22,7 +22,7 @@ const ExistingNavigation = () => {
 
   return (
     <>
-      <Navigation />
+      <Navigation id={id} />
     </>
   );
 };

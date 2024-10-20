@@ -63,10 +63,7 @@ class NavigationService extends TransactionBaseService {
     });
 
     if (!navigation) {
-      throw new MedusaError(
-        MedusaError.Types.NOT_FOUND,
-        'Navigation was not found'
-      );
+      return undefined;
     }
 
     return navigation;
@@ -129,28 +126,61 @@ class NavigationService extends TransactionBaseService {
   // /**
   //  * Update a navigation's name and/or items
   //  */
-  // async updateNavigation(navigationId: string, data) {
-  //   const navigationRepo = this.activeManager_.withRepository(
-  //     this.navigationRepository_
-  //   );
+  async updateNavigationTree(navigationId: string, updatedTree: any) {
+    const navigationItemRepo = this.manager_.getRepository(NavigationItem);
 
-  //   const navigation = await this.getNavigationById(navigationId);
-  //   const { name, items } = data;
+    // Recursive function to upsert the items (update or insert)
+    async function upsertItems(items, parentId: string | null) {
+      for (let i = 0; i < items.length; i++) {
+        const currentItem = items[i];
 
-  //   if (name) {
-  //     navigation.name = name;
-  //   }
+        // Check if the item already exists in the database
+        let item = await navigationItemRepo.findOne({
+          where: { id: currentItem.id },
+        });
 
-  //   // Update the navigation
-  //   await navigationRepo.save(navigation);
+        if (item) {
+          // If the item exists, update its fields (order, title, url, and parent)
+          item.index = currentItem.index;
+          item.name = currentItem.name; // Update the name (title)
+          item.url = currentItem.url; // Update the URL
+        } else {
+          // If the item doesn't exist, create a new one
+          item = navigationItemRepo.create({
+            name: currentItem.name,
+            url: currentItem.url,
+            index: currentItem.index,
+            navigation: { id: navigationId }, // Link to the navigation
+          });
+        }
 
-  //   // If items are provided, handle item updates
-  //   if (items && items.length > 0) {
-  //     await this.addNavigationItems(navigationId, items);
-  //   }
+        // Update the parent reference (if applicable)
+        if (parentId) {
+          const parent = await navigationItemRepo.findOne({
+            where: { id: parentId },
+          });
+          item.parent = parent || null;
+        } else {
+          item.parent = null; // Root-level items
+        }
 
-  //   return navigation;
-  // }
+        // Save the updated or newly created item
+        const savedItem = await navigationItemRepo.save(item);
+
+        // If the item has children, recursively upsert them
+        if (currentItem.children && currentItem.children.length > 0) {
+          await upsertItems(currentItem.children, savedItem.id); // Pass the new item's ID as parentId
+        }
+      }
+    }
+
+    // Start updating the tree from root-level items
+    if (updatedTree.items && updatedTree.items.length > 0) {
+      await upsertItems(updatedTree.items, null); // No parent for root items
+    }
+
+    return { success: true, message: 'Tree upserted successfully' };
+  }
 
   // /**
   //  * Delete a navigation and all related navigation items

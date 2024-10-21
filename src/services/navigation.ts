@@ -50,13 +50,6 @@ class NavigationService extends TransactionBaseService {
       this.navigationRepository_
     );
 
-    const query = buildQuery(
-      {
-        id,
-      },
-      config
-    );
-
     const navigation = await navigationsRepo.findOne({
       where: { id },
       relations: ['items'],
@@ -127,8 +120,17 @@ class NavigationService extends TransactionBaseService {
   //  * Update a navigation's name and/or items
   //  */
   async updateNavigationTree(navigationId: string, updatedTree: any) {
+    const navigationRepo = this.manager_.getRepository(Navigation);
     const navigationItemRepo = this.manager_.getRepository(NavigationItem);
 
+    // First, find the navigation by its ID
+    let navigation = await navigationRepo.findOne({
+      where: { id: navigationId },
+    });
+    if (updatedTree.name) {
+      navigation.name = updatedTree.name;
+      await navigationRepo.save(navigation); // Save the updated navigation
+    }
     // Recursive function to upsert the items (update or insert)
     async function upsertItems(items, parentId: string | null) {
       for (let i = 0; i < items.length; i++) {
@@ -182,18 +184,17 @@ class NavigationService extends TransactionBaseService {
     return { success: true, message: 'Tree upserted successfully' };
   }
 
-  // /**
-  //  * Delete a navigation and all related navigation items
-  //  */
-  // async deleteNavigation(navigationId: string) {
-  //   const navigationRepo = this.activeManager_.withRepository(
-  //     this.navigationRepository_
-  //   );
-  //   const navigation = await this.getNavigationById(navigationId);
+  /**
+   * Delete a navigation and all related navigation items
+   */
+  async deleteNavigation(navigationId: string) {
+    const navigationRepo = this.manager_.getRepository(Navigation);
 
-  //   // Remove the navigation
-  //   return await navigationRepo.remove(navigation);
-  // }
+    const navigation = await this.retrieve(navigationId);
+
+    // Remove the navigation
+    return await navigationRepo.remove(navigation);
+  }
 
   /**
    * Build a nested tree structure for the navigation
@@ -235,6 +236,53 @@ class NavigationService extends TransactionBaseService {
       ...navigation,
       items: tree,
     };
+  }
+
+  // /**
+  //  * Delete a navigation Item
+  //  */
+
+  async deleteItem(id: string) {
+    const navigationItemRepo = this.activeManager_.withRepository(
+      this.navigationItemRepository_
+    );
+
+    try {
+      const itemToDelete = await navigationItemRepo.findOne({
+        where: { id: id },
+        relations: ['children', 'children.children'], // Load children to delete them
+      });
+
+      if (!itemToDelete) {
+        throw new Error(`Navigation item with ID ${id} not found.`);
+      }
+
+      // Recursively delete all children first
+      async function deleteChildrenRecursively(item) {
+        if (item.children && item.children.length > 0) {
+          for (let child of item.children) {
+            // Recursively delete the child's children first
+            await deleteChildrenRecursively(child);
+            // Then delete the child
+            await navigationItemRepo.delete(child.id);
+          }
+        }
+      }
+
+      // Start by deleting all the children
+      await deleteChildrenRecursively(itemToDelete);
+
+      // Finally, delete the parent item
+      await navigationItemRepo.delete(itemToDelete.id);
+
+      return {
+        success: true,
+        message: `Item and its children deleted successfully.`,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
   }
 }
 

@@ -17,11 +17,18 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
       items: req.body['items'],
     });
 
-    res.json({ newNavigation });
+    return res.json({ newNavigation });
   }
+
   const newNavigation = await navService.updateNavigationTree(req.body['id'], {
     name: req.body['name'],
     items: req.body['items'],
   });
+
+  if (req.body['deletedItems'].length > 0) {
+    for (let deletedItem of req.body['deletedItems']) {
+      await navService.deleteItem(deletedItem.id);
+    }
+  }
   res.json({ newNavigation });
 }

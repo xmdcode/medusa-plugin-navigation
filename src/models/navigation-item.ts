@@ -32,7 +32,7 @@ export class NavigationItem extends BaseEntity {
   index: number;
 
   // Each NavigationItem can have a parent (self-referencing tree structure)
-  @TreeParent()
+  @TreeParent({ onDelete: 'CASCADE' })
   parent: NavigationItem;
 
   // Each NavigationItem belongs to a Navigation

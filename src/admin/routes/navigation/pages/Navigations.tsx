@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAdminCustomQuery } from 'medusa-react';
 import { Button, Container, Table, Text } from '@medusajs/ui';
 import { PlusMini } from '@medusajs/icons';
 import { useNavigate, Link } from 'react-router-dom';
+import { useNavigationData } from '../components/context/NavigationItemsContext';
 
 export const NavigationsPage = () => {
-  const { data: navigationsData, isLoading } = useAdminCustomQuery(
-    'navigations',
-    ['navigations']
-  );
+  const { setDeletedItems, setItems } = useNavigationData();
+  const {
+    data: navigationsData,
+    isLoading,
+    refetch,
+  } = useAdminCustomQuery('navigations', ['navigations']);
 
   const navigate = useNavigate();
+
   const tableData = navigationsData?.navigations?.map((navitem) => {
     const itemOnlyTitle = navitem.items
       .map((navitemitem) => navitemitem.name)
@@ -21,6 +25,12 @@ export const NavigationsPage = () => {
   const handleAddNew = () => {
     navigate('/a/navigation/new');
   };
+
+  useEffect(() => {
+    setDeletedItems([]);
+    setItems([]);
+    refetch();
+  }, []);
 
   return (
     <>

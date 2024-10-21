@@ -7,7 +7,7 @@ import {
   useContext,
   useEffect,
 } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigation } from 'react-router-dom';
 import { MinimalTreeItemData } from '../TreeNavigation';
 
 interface NavigationContextProvider extends PropsWithChildren {
@@ -19,6 +19,8 @@ interface NavigationContextProvider extends PropsWithChildren {
   setActiveItem: Dispatch<SetStateAction<MinimalTreeItemData>>;
   items: MinimalTreeItemData[];
   setItems: Dispatch<SetStateAction<MinimalTreeItemData[]>>;
+  deletedItems: { id: string }[];
+  setDeletedItems: Dispatch<SetStateAction<{ id: string }[]>>;
   page: string;
   setPage: Dispatch<SetStateAction<string>>;
   isDeleteModalOpen: boolean;
@@ -38,6 +40,8 @@ export const useNavigationData = (): NavigationContextProvider => {
 };
 
 export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
+  const navigation = useNavigation();
+
   const [isNewModalOpen, setIsNewModalOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -45,6 +49,7 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
   const [page, setPage] = useState('');
   const [navigationId, setNavigationId] = useState<string>('');
   const [items, setItems] = useState<MinimalTreeItemData[]>([]);
+  const [deletedItems, setDeletedItems] = useState([]);
   const [navigationName, setNavigationName] = useState<string>('');
 
   return (
@@ -66,6 +71,8 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
         setNavigationId,
         navigationName,
         setNavigationName,
+        deletedItems,
+        setDeletedItems,
       }}>
       {children}
     </NavigationContext.Provider>

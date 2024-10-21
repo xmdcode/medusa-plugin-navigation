@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Container, Button, Text, Input } from '@medusajs/ui';
+import { Container, Button, Text, Input, usePrompt } from '@medusajs/ui';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, PlusMini, Sparkles } from '@medusajs/icons';
 
@@ -11,7 +11,7 @@ import {
 } from '../components/TreeNavigation';
 import AddNewItem from '../components/Modals/AddNewItem';
 import EditItem from '../components/Modals/EditItem';
-import { useAdminCustomPost } from 'medusa-react';
+import { useAdminCustomDelete, useAdminCustomPost } from 'medusa-react';
 import DeleteItem from './Modals/DeleteItem';
 
 export interface NavigationProps {
@@ -21,6 +21,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
   const { id } = props;
 
   const navigate = useNavigate();
+  const dialog = usePrompt();
   const {
     setIsNewModalOpen,
     page,
@@ -28,6 +29,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
     items,
     navigationName,
     setNavigationName,
+    deletedItems,
   } = useNavigationData();
 
   const handleAddNew = () => {
@@ -36,16 +38,34 @@ const Navigation: React.FC<NavigationProps> = (props) => {
 
   const { mutate } = useAdminCustomPost('/navigations', ['navigationsadd']);
 
+  const { mutate: deleteMutate } = useAdminCustomDelete(`/navigations/${id}`, [
+    ['navigationDelete'],
+  ]);
+
   const handleClick = () => {
     // console.log(items);
     mutate(
-      { id: id ?? '', name: navigationName, items },
+      { id: id ?? '', name: navigationName, items, deletedItems },
       {
         onSuccess: () => {
           navigate('/a/navigation');
         },
       }
     );
+  };
+
+  const handleDelete = async () => {
+    const userHasConfirmed = await dialog({
+      title: 'Please confirm',
+      description: 'Are you sure you want to delete this Menu?',
+    });
+    if (userHasConfirmed) {
+      deleteMutate(void 0, {
+        onSuccess: () => {
+          navigate('/a/navigation');
+        },
+      });
+    }
   };
 
   return (
@@ -59,9 +79,14 @@ const Navigation: React.FC<NavigationProps> = (props) => {
             <ArrowLeft />
             Back To Navigations
           </Button>
-          <Button onClick={handleClick} variant="primary">
-            Save
-          </Button>
+          <div className="flex items-center space-x-3">
+            <Button onClick={handleDelete} variant="danger">
+              Delete
+            </Button>
+            <Button onClick={handleClick} variant="primary">
+              Save
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-col">

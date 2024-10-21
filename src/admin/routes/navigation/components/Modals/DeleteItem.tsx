@@ -9,6 +9,8 @@ const DeleteItem = () => {
     items,
     activeItem,
     setItems,
+    setDeletedItems,
+    deletedItems,
   } = useNavigationData();
 
   const closeModal = () => {
@@ -17,6 +19,7 @@ const DeleteItem = () => {
 
   const handleDelete = () => {
     setItems(removeItemById(items, activeItem.id));
+    setDeletedItems([...deletedItems, { id: activeItem.id }]);
     closeModal();
   };
 

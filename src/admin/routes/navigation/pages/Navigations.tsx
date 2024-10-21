@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAdminCustomQuery } from 'medusa-react';
 import { Button, Container, Table, Text } from '@medusajs/ui';
 import { PlusMini } from '@medusajs/icons';
@@ -52,31 +52,37 @@ export const NavigationsPage = () => {
             </Button>
           </div>
         </div>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell className="w-[250px]">Title</Table.HeaderCell>
-              <Table.HeaderCell>Menu Items</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {!isLoading &&
-              tableData?.map((navigation) => {
-                return (
-                  <Table.Row key={navigation.id}>
-                    <Table.Cell className="w-[250px]">
-                      <Link
-                        to={`/a/navigation/${navigation.id}`}
-                        className="hover:text-blue-60 duration-100 transition ease-in-out">
-                        {navigation.name}
-                      </Link>
-                    </Table.Cell>
-                    <Table.Cell>{navigation.items}</Table.Cell>
-                  </Table.Row>
-                );
-              })}{' '}
-          </Table.Body>
-        </Table>
+        {!isLoading && tableData.length > 0 ? (
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell className="w-[250px]">Title</Table.HeaderCell>
+                <Table.HeaderCell>Menu Items</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {!isLoading &&
+                tableData?.map((navigation) => {
+                  return (
+                    <Table.Row key={navigation.id}>
+                      <Table.Cell className="w-[250px]">
+                        <Link
+                          to={`/a/navigation/${navigation.id}`}
+                          className="hover:text-blue-60 duration-100 transition ease-in-out">
+                          {navigation.name}
+                        </Link>
+                      </Table.Cell>
+                      <Table.Cell>{navigation.items}</Table.Cell>
+                    </Table.Row>
+                  );
+                })}
+            </Table.Body>
+          </Table>
+        ) : (
+          <Container className="flex items-center justify-center space-x-1">
+            <Text>You haven't added any navigations</Text>
+          </Container>
+        )}
       </Container>
     </>
   );

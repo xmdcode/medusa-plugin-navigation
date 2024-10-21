@@ -22,6 +22,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
 
   const navigate = useNavigate();
   const dialog = usePrompt();
+
   const {
     setIsNewModalOpen,
     page,
@@ -43,7 +44,6 @@ const Navigation: React.FC<NavigationProps> = (props) => {
   ]);
 
   const handleClick = () => {
-    // console.log(items);
     mutate(
       { id: id ?? '', name: navigationName, items, deletedItems },
       {
@@ -70,7 +70,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
 
   return (
     <>
-      <Container>
+      <Container className="flex flex-col space-y-3">
         <div className="flex items-center justify-between">
           <Button
             type="button"

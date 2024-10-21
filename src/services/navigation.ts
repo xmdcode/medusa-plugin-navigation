@@ -7,9 +7,9 @@ import {
   TransactionBaseService,
 } from '@medusajs/medusa';
 import { buildTreeStructure } from '../utils/tree-builder'; // Assuming you create a utility to build trees
-import { NavigationRepository } from 'src/repositories/navigation';
+import { NavigationRepository } from '../repositories/navigation';
 
-import { NavigationItemRepository } from 'src/repositories/navigationItem';
+import { NavigationItemRepository } from '../repositories/navigationItem';
 
 import { Navigation } from '../models/navigation';
 import { NavigationItem } from '../models/navigation-item';

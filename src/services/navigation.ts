@@ -1,12 +1,5 @@
-import { MedusaError } from 'medusa-core-utils';
 import { Lifetime } from 'awilix';
-import {
-  buildQuery,
-  FindConfig,
-  Selector,
-  TransactionBaseService,
-} from '@medusajs/medusa';
-import { buildTreeStructure } from '../utils/tree-builder'; // Assuming you create a utility to build trees
+import { FindConfig, TransactionBaseService } from '@medusajs/medusa';
 import { NavigationRepository } from '../repositories/navigation';
 
 import { NavigationItemRepository } from '../repositories/navigationItem';

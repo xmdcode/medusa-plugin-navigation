@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Create your custom navigations for your storefront",
   "author": "XMDCode (https://xmdcode.com)",
+  "main":"index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/xmdcode/medusa-plugin-navigation"

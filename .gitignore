@@ -18,7 +18,7 @@ medusa-db.sql
 build
 .cache
 
-.datasource.js
+datasource.js
 
 .yarn/*
 !.yarn/patches

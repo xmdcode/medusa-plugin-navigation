@@ -1,33 +1,31 @@
-import { Lifetime } from 'awilix';
+// import { Lifetime } from 'awilix';
 import { FindConfig, TransactionBaseService } from '@medusajs/medusa';
-import { NavigationRepository } from '../repositories/navigation';
+// import { NavigationRepository } from '../repositories/navigation';
 
-import { NavigationItemRepository } from '../repositories/navigationItem';
+// import { NavigationItemRepository } from '../repositories/navigationItem';
 
 import { Navigation } from '../models/navigation';
 import { NavigationItem } from '../models/navigation-item';
+import { filterOutTimestamps } from '../utils/tree-builder';
 
 class NavigationService extends TransactionBaseService {
   // protected manager_: EntityManager;
-  protected navigationRepository_: typeof NavigationRepository;
-  protected navigationItemRepository_: typeof NavigationItemRepository;
-  static LIFE_TIME = Lifetime.TRANSIENT;
+  // protected navigationRepository_: typeof NavigationRepository;
+  // protected navigationItemRepository_: typeof NavigationItemRepository;
+  // static LIFE_TIME = Lifetime.TRANSIENT;
   constructor(container) {
     super(container);
-    // this.manager_ = manager;
-    this.navigationRepository_ = container.navigationRepository;
-    this.navigationItemRepository_ = container.navigationItemRepository;
+    this.manager_ = container.manager;
+    // this.navigationRepository_ = container.navigationRepository;
+    // this.navigationItemRepository_ = container.navigationItemRepository;
   }
 
   // /**
   //  * Retrieve all navigations
   //  */
   async list(): Promise<Navigation[]> {
-    const navigationsRepo = this.activeManager_.withRepository(
-      this.navigationRepository_
-    );
+    const navigationsRepo = this.activeManager_.getRepository(Navigation);
     const items = await navigationsRepo.find({ relations: ['items'] });
-
     return items;
   }
 
@@ -39,9 +37,7 @@ class NavigationService extends TransactionBaseService {
     id: string,
     config?: FindConfig<Navigation>
   ): Promise<Navigation> {
-    const navigationsRepo = this.activeManager_.withRepository(
-      this.navigationRepository_
-    );
+    const navigationsRepo = this.activeManager_.getRepository(Navigation);
 
     const navigation = await navigationsRepo.findOne({
       where: { id },
@@ -59,9 +55,7 @@ class NavigationService extends TransactionBaseService {
   //  * Create a new navigation with nested items
   //  */
   async createNavigation(data) {
-    const navigationRepo = this.activeManager_.withRepository(
-      this.navigationRepository_
-    );
+    const navigationRepo = this.activeManager_.getRepository(Navigation);
 
     const { name, items } = data;
 
@@ -80,9 +74,8 @@ class NavigationService extends TransactionBaseService {
   //  * Add nested navigation items to a specific navigation
   //  */
   async addNavigationItems(navigationId: string, items) {
-    const navigationItemRepo = this.activeManager_.withRepository(
-      this.navigationItemRepository_
-    );
+    const navigationItemRepo =
+      this.activeManager_.getRepository(NavigationItem);
 
     const createItemsRecursively = async (items, parent = null) => {
       for (const itemData of items) {
@@ -96,9 +89,7 @@ class NavigationService extends TransactionBaseService {
           index,
           navigation: { id: navigationId }, // Link to the navigation
         });
-        const savedItem = await this.navigationItemRepository_.save(
-          navigationItem
-        );
+        const savedItem = await navigationItemRepo.save(navigationItem);
 
         if (children.length > 0) {
           await createItemsRecursively(children, savedItem);
@@ -195,9 +186,7 @@ class NavigationService extends TransactionBaseService {
 
   async getNavigationTree(navigationId: string) {
     // Fetch the navigation entity by ID, ensuring we get its root items
-    const navigationRepo = this.activeManager_.withRepository(
-      this.navigationRepository_
-    );
+    const navigationRepo = this.activeManager_.getRepository(Navigation);
     const navigation = await navigationRepo.findOne({
       where: { id: navigationId },
       relations: ['items'],
@@ -222,11 +211,13 @@ class NavigationService extends TransactionBaseService {
       navigationItemRepo.findDescendantsTree(root)
     );
 
-    const tree = await Promise.all(treePromises);
+    let tree = await Promise.all(treePromises);
+
+    tree = tree.map((item) => filterOutTimestamps(item));
 
     // Return the navigation along with its tree of items
     return {
-      ...navigation,
+      ...filterOutTimestamps(navigation),
       items: tree,
     };
   }
@@ -236,9 +227,8 @@ class NavigationService extends TransactionBaseService {
   //  */
 
   async deleteItem(id: string) {
-    const navigationItemRepo = this.activeManager_.withRepository(
-      this.navigationItemRepository_
-    );
+    const navigationItemRepo =
+      this.activeManager_.getRepository(NavigationItem);
 
     try {
       const itemToDelete = await navigationItemRepo.findOne({

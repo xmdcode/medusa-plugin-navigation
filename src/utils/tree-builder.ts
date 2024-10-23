@@ -17,3 +17,14 @@ export const buildTreeStructure = (items, parent = null) => {
 
   return tree;
 };
+
+export const filterOutTimestamps = (entity: any): any => {
+  const { created_at, updated_at, ...rest } = entity;
+
+  // Recursively process items if they exist (for nested structures)
+  if (rest.items && Array.isArray(rest.items)) {
+    rest.items = rest.items.map(filterOutTimestamps);
+  }
+
+  return rest;
+};

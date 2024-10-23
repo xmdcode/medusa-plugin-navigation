@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Create your custom navigations for your storefront",
   "author": "XMDCode (https://xmdcode.com)",
-  "main":"index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/xmdcode/medusa-plugin-navigation"
@@ -30,7 +29,8 @@
     "start:custom": "cross-env npm run build && node --preserve-symlinks --trace-warnings index.js",
     "dev": "cross-env npm run build:server && medusa develop",
     "prepare": "cross-env NODE_ENV=production npm run build:server && medusa-admin bundle",
-    "migration": "npm run build && typeorm migration:generate -d datasource.js src/migrations/migrationcreate && npm run build && npx medusa migrations run"
+    "migration": "npm run build && typeorm migration:generate -d datasource.js src/migrations/migrationcreate && npm run build && npx medusa migrations run",
+    "linkprep":"npm run prepare && npm link"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",

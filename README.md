@@ -1,4 +1,4 @@
-# medusa-plugin-feeds
+# medusa-plugin-navigation
 
 This is a plugin for MedusaJS designed to create navigations and menus so it can be used on storefronts. The project is in the stage of MVP at the moment but and need fixes mostly on frontend because some of the medusa ui component don't work according to their documentations.
 

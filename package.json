@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
-    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/sortable": "^9.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@medusajs/admin": "^7.1.16",
     "@medusajs/cache-inmemory": "1.8.11",
@@ -78,7 +78,7 @@
     "react": "^18.2.0",
     "react-router-dom": "^6.13.0",
     "@dnd-kit/core": "^6.1.0",
-    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/sortable": "^9.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "dnd-kit-sortable-tree": "^0.1.73",
     "medusa-react": "^9.0.18"

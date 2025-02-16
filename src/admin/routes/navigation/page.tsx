@@ -18,8 +18,6 @@ const NavigationsPage = () => {
     queryKey: ['navigations'],
   });
 
-  console.log(navigationsData);
-
   const navigate = useNavigate();
 
   const tableData = navigationsData?.navigations?.map((navitem) => {
@@ -32,12 +30,6 @@ const NavigationsPage = () => {
   const handleAddNew = () => {
     navigate('/navigation/new');
   };
-
-  // useEffect(() => {
-  // setDeletedItems([]);
-  // setItems([]);
-  // refetch();
-  // }, []);
 
   return (
     <>

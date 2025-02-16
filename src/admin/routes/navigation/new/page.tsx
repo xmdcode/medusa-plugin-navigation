@@ -1,12 +1,7 @@
-import { NavigationContextProvider } from '../../../components/context/NavigationItemsContext';
-import Navigation from '../../../components/Navigation';
+import Navigation from '../../../components/Navigation/Navigation';
 
 const NewNavigation = () => {
-  return (
-    <NavigationContextProvider>
-      <Navigation />
-    </NavigationContextProvider>
-  );
+  return <Navigation page="new" />;
 };
 
 export default NewNavigation;

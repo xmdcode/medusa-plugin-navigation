@@ -28,6 +28,15 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   res.json(navigationItem);
 }
 
+export async function PUT(req: MedusaRequest, res: MedusaResponse) {
+  const navigationModuleService: NavigationModuleService =
+    req.scope.resolve(NAVIGATION_MODULE);
+  // const navService = req.scope.resolve('navigationService');
+  // await navigationModuleService.deleteNavigation(req.params.id);
+  // res.json({ deleted: 'ok' });
+  res.json('hello');
+}
+
 export async function DELETE(req: MedusaRequest, res: MedusaResponse) {
   const navigationModuleService: NavigationModuleService =
     req.scope.resolve(NAVIGATION_MODULE);

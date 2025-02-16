@@ -48,7 +48,10 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
   const [activeItem, setActiveItem] = useState<MinimalTreeItemData>();
   const [page, setPage] = useState('');
   const [navigationId, setNavigationId] = useState<string>('');
-  const [items, setItems] = useState<MinimalTreeItemData[]>([
+  const [navigationName, setNavigationName] = useState<string>('');
+
+  const [items, setItems] = useState<MinimalTreeItemData[]>(
+    [
     {
       id: '8a75b1cb-19be-4262-bb8e-adf06f429487',
       name: 'Nav1',
@@ -126,7 +129,6 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
     },
   ]);
   const [deletedItems, setDeletedItems] = useState([]);
-  const [navigationName, setNavigationName] = useState<string>('');
 
   return (
     <NavigationContext.Provider

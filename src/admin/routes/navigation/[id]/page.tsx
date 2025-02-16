@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import Navigation from '../../../components/Navigation';
 import { NavigationContextProvider } from '../../../components/context/NavigationItemsContext';
+import Navigation from '../../../components/Navigation/Navigation';
 
 const ExistingNavigation = () => {
   const { id } = useParams();
@@ -8,7 +8,7 @@ const ExistingNavigation = () => {
   return (
     <>
       <NavigationContextProvider>
-        <Navigation id={id} />
+        <Navigation page="edit" id={id} />
       </NavigationContextProvider>
     </>
   );

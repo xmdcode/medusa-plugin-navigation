@@ -1,8 +1,8 @@
 {
-  "name": "navigation-menu",
-  "version": "0.0.1",
-  "description": "A starter for Medusa plugins.",
-  "author": "Medusa (https://medusajs.com)",
+  "name": "@xmdcode/medusa-navigation-menu",
+  "version": "0.0.5",
+  "description": "Plugin that makes navigations easy!",
+  "author": "XMDCode (https://xmdcode.com)",
   "license": "MIT",
   "files": [
     ".medusa/server"

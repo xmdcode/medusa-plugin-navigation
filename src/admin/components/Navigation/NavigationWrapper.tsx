@@ -1,5 +1,13 @@
 import React from 'react';
-import { Container, Button, Text, Input, Command, Badge } from '@medusajs/ui';
+import {
+  Container,
+  Button,
+  Text,
+  Input,
+  Command,
+  Badge,
+  TooltipProvider,
+} from '@medusajs/ui';
 import { PlusMini, Sparkles } from '@medusajs/icons';
 
 import { TreeNavigation } from '../TreeNavigation';
@@ -28,6 +36,7 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
   const handleAddNew = () => {
     setIsNewModalOpen(true);
   };
+  console.log(items);
 
   const url = window.location.host;
   return (
@@ -72,14 +81,16 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
         {page !== 'new' && (
           <div className="w-full flex flex-col space-y-4">
             <Text>Url of Navigation</Text>
-            <Command>
-              <Badge color="green">Get</Badge>
-              <code>{`${url}/store/navigation/${navigationId}`}</code>
-              <Command.Copy
-                content={`${url}/store/navigation/${navigationId}`}
-                className="ml-auto"
-              />
-            </Command>
+            <TooltipProvider>
+              <Command>
+                <Badge color="green">Get</Badge>
+                <code>{`${url}/store/navigation/${navigationId}`}</code>
+                <Command.Copy
+                  content={`${url}/store/navigation/${navigationId}`}
+                  className="ml-auto"
+                />
+              </Command>
+            </TooltipProvider>
           </div>
         )}
       </Container>

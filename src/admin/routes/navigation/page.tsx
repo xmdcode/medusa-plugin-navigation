@@ -8,7 +8,6 @@ import { useQuery } from '@tanstack/react-query';
 
 const NavigationsPage = () => {
   // const { setDeletedItems, setItems } = useNavigationData();
-
   const {
     data: navigationsData,
     isLoading,

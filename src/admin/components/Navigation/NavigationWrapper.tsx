@@ -1,42 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container, Button, Text, Input } from '@medusajs/ui';
 import { PlusMini, Sparkles } from '@medusajs/icons';
 
-import { MinimalTreeItemData, TreeNavigation } from '../TreeNavigation';
+import { TreeNavigation } from '../TreeNavigation';
 import AddNewItem from '../Modals/AddNewItem';
 import EditItem from '../Modals/EditItem';
 import DeleteItem from '../Modals/DeleteItem';
-import { useQuery } from '@tanstack/react-query';
-import { sdk } from '../../lib/config';
 import { useNavigationData } from '../context/NavigationItemsContext';
 import Actions, { ActionsProps } from './Actions';
 
 export interface NavigationWrapperProps {
-  id?: string;
   page: ActionsProps['page'];
 }
 const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
-  const { id, page } = props;
-  const { setIsNewModalOpen } = useNavigationData();
-
-  const {} = useQuery({
-    queryFn: () => sdk.client.fetch(`/admin/navigations/${id}`),
-    queryKey: ['navigation'],
-    select: (data) => {
-      setItems(data?.items);
-      setNavigationName(data?.name);
-      return data;
-    },
-  });
-
-  const [items, setItems] = useState<MinimalTreeItemData[]>([]);
-  const [navigationName, setNavigationName] = useState<string>('');
+  const { page } = props;
+  const {
+    setIsNewModalOpen,
+    setItems,
+    items,
+    navigationName,
+    setNavigationName,
+  } = useNavigationData();
 
   const handleAddNew = () => {
     setIsNewModalOpen(true);
   };
-
-  // const { mutate } = useAdminCustomPost('/navigations', ['navigationsadd']);
 
   return (
     <>
@@ -76,11 +64,7 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
           </div>
         </div>
       </Container>
-      <AddNewItem
-        // isOpen={isNewModalOpen}
-        // close={() => setIsNewModalOpen(false)}
-        setNewItem={(item) => setItems((prev) => [...prev, item])}
-      />
+      <AddNewItem setNewItem={(item) => setItems((prev) => [...prev, item])} />
       <EditItem />
       <DeleteItem />
     </>

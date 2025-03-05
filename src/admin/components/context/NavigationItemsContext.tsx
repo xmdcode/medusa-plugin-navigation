@@ -7,7 +7,9 @@ import {
   useContext,
   useEffect,
 } from 'react';
-import { useNavigation } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { sdk } from '../../lib/config';
+import { useParams } from 'react-router-dom';
 import { MinimalTreeItemData } from '../TreeNavigation';
 
 interface NavigationContextProvider extends PropsWithChildren {
@@ -29,6 +31,7 @@ interface NavigationContextProvider extends PropsWithChildren {
   setNavigationId: Dispatch<SetStateAction<string>>;
   navigationName: string;
   setNavigationName: Dispatch<SetStateAction<string>>;
+  refetchNavigation(): void;
 }
 
 export const NavigationContext = createContext(null);
@@ -40,99 +43,35 @@ export const useNavigationData = (): NavigationContextProvider => {
 };
 
 export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
-  const navigation = useNavigation();
+  const { id } = useParams();
+
+  const { data, refetch: refetchNavigation } = useQuery({
+    queryFn: () => sdk.client.fetch(`/admin/navigations/${id}`),
+    queryKey: ['navigation', id],
+    enabled: !!id,
+  });
 
   const [isNewModalOpen, setIsNewModalOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<MinimalTreeItemData>();
   const [page, setPage] = useState('');
-  const [navigationId, setNavigationId] = useState<string>('');
   const [navigationName, setNavigationName] = useState<string>('');
 
-  const [items, setItems] = useState<MinimalTreeItemData[]>(
-    [
-    {
-      id: '8a75b1cb-19be-4262-bb8e-adf06f429487',
-      name: 'Nav1',
-      url: 'Nav1',
-      parentId: null,
-      depth: 0,
-      index: 0,
-      isLast: false,
-      parent: null,
-      children: [
-        {
-          id: 'f57ab33a-fa20-49b6-a94c-0842a3ce905e',
-          name: 'Nav2',
-          url: 'Nav2',
-          parentId: '8a75b1cb-19be-4262-bb8e-adf06f429487',
-          depth: 1,
-          index: 0,
-          isLast: true,
-          parent: null,
-          children: [
-            {
-              id: '8100b578-e377-428d-acaa-77ebc2f42594',
-              name: 'Nav3',
-              url: 'Nav4',
-              parentId: 'f57ab33a-fa20-49b6-a94c-0842a3ce905e',
-              depth: 2,
-              index: 0,
-              isLast: true,
-              parent: null,
-              children: [],
-              canHaveChildren: false,
-            },
-          ],
-          canHaveChildren: true,
-        },
-      ],
-      canHaveChildren: true,
-    },
-    {
-      id: '28790121-9990-4447-9eab-836db3ed362b',
-      name: 'Nav5',
-      url: 'Nav5',
-      parentId: null,
-      depth: 0,
-      index: 1,
-      isLast: false,
-      parent: null,
-      children: [
-        {
-          id: '902e25a6-1fe2-42f3-aec9-458f60ae2627',
-          name: 'nav6',
-          url: 'nav6',
-          parentId: '28790121-9990-4447-9eab-836db3ed362b',
-          depth: 1,
-          index: 2,
-          isLast: false,
-          parent: null,
-          children: [],
-          canHaveChildren: true,
-        },
-      ],
-      canHaveChildren: true,
-    },
-    {
-      id: '0c7f6a38-5b23-41e6-8831-596fc11ca142',
-      name: 'nav7',
-      url: 'nav7',
-      parentId: null,
-      depth: 0,
-      index: 3,
-      isLast: true,
-      parent: null,
-      children: [],
-      canHaveChildren: true,
-    },
-  ]);
+  const [items, setItems] = useState<MinimalTreeItemData[]>([]);
   const [deletedItems, setDeletedItems] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setItems(data.items);
+      setNavigationName(data.name);
+    }
+  }, [data]);
 
   return (
     <NavigationContext.Provider
       value={{
+        navigationId: id,
         isNewModalOpen,
         setIsNewModalOpen,
         isEditModalOpen,
@@ -145,14 +84,100 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
         setItems,
         page,
         setPage,
-        navigationId,
-        setNavigationId,
         navigationName,
         setNavigationName,
         deletedItems,
         setDeletedItems,
+        refetchNavigation,
       }}>
       {children}
     </NavigationContext.Provider>
   );
 };
+const fitems = [
+  {
+    id: '01JMESPQSTCKE77SE269775GC2',
+    name: 'Nav2',
+    url: 'Nav2',
+    index: 0,
+    navigation_id: '01JMESPQSDNB0YT4EN9W3PJ7GF',
+    parent_id: null,
+    parent: null,
+    created_at: '2025-02-19T09:47:56.603Z',
+    updated_at: '2025-02-19T09:47:56.603Z',
+    deleted_at: null,
+    children: [
+      {
+        id: '01JMESPQT3DXG389DVT3E7W44F',
+        name: 'nav3',
+        url: 'nav3',
+        index: 0,
+        navigation_id: '01JMESPQSDNB0YT4EN9W3PJ7GF',
+        parent_id: '01JMESPQSTCKE77SE269775GC2',
+        parent: null,
+        created_at: '2025-02-19T09:47:56.611Z',
+        updated_at: '2025-02-19T09:47:56.611Z',
+        deleted_at: null,
+        children: [],
+        parentId: '01JMESPQSTCKE77SE269775GC2',
+        depth: 1,
+        isLast: true,
+        canHaveChildren: true,
+      },
+    ],
+    parentId: null,
+    depth: 0,
+    isLast: false,
+    canHaveChildren: true,
+  },
+  {
+    id: 'f1749161-8f93-461f-ac14-f8c5b5823394',
+    name: 'Item3',
+    url: 'Item4',
+    parentId: null,
+    depth: 0,
+    index: 1,
+    isLast: false,
+    parent: null,
+    children: [
+      {
+        id: 'db00d86e-6593-4146-bf81-90bca6a70672',
+        name: 'Item2',
+        url: 'Item2',
+        parentId: 'f1749161-8f93-461f-ac14-f8c5b5823394',
+        depth: 1,
+        index: 0,
+        isLast: false,
+        parent: null,
+        children: [
+          {
+            id: '63d2e973-1670-403e-bd8b-348dd1d09852',
+            name: 'Item5',
+            url: 'Item5',
+            parentId: 'db00d86e-6593-4146-bf81-90bca6a70672',
+            depth: 2,
+            index: 1,
+            isLast: true,
+            parent: null,
+            children: [],
+            canHaveChildren: false,
+          },
+        ],
+        canHaveChildren: true,
+      },
+    ],
+    canHaveChildren: true,
+  },
+  {
+    id: 'd2947d4c-fe71-417d-b4b2-0ab5c1f3e620',
+    name: 'Item6',
+    url: 'Item7',
+    parentId: null,
+    depth: 0,
+    index: 2,
+    isLast: true,
+    parent: null,
+    children: [],
+    canHaveChildren: true,
+  },
+];

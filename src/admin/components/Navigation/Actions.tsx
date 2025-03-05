@@ -1,42 +1,53 @@
 import { Button, usePrompt } from '@medusajs/ui';
 import { FC } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { sdk } from '../../lib/config';
 import { useNavigationData } from '../context/NavigationItemsContext';
 import { ArrowLeft } from '@medusajs/icons';
 import { useNavigate } from 'react-router-dom';
 
-export interface ActionsProps {
-  page: 'new' | 'edit';
-  id?: string;
-}
-const Actions: FC<ActionsProps> = (props) => {
-  const { id, page } = props;
+export interface ActionsProps {}
+const Actions: FC<ActionsProps> = () => {
   const dialog = usePrompt();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const { deletedItems, navigationName, items } = useNavigationData();
+  const {
+    deletedItems,
+    navigationName,
+    items,
+    navigationId,
+    refetchNavigation,
+  } = useNavigationData();
 
   const { mutateAsync: mutate } = useMutation({
     mutationFn: (payload: any) =>
       sdk.client.fetch(`/admin/navigations`, {
-        method: 'POST',
+        method: navigationId ? 'PUT' : 'POST',
         body: { ...payload },
       }),
-    // onSuccess: () => navigate('/navigation'),
+    onSuccess: () => refetchNavigation(),
   });
 
   const { mutateAsync: deleteMutate } = useMutation({
     mutationFn: (payload) =>
-      sdk.client.fetch(`/admin/navigations/${id}`, {
+      sdk.client.fetch(`/admin/navigations/${navigationId}`, {
         method: 'DELETE',
         body: {},
       }),
-    onSuccess: () => alert('updated product'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['navigations'] });
+      navigate('/navigation', { replace: true });
+    },
   });
 
   const handleClick = () => {
-    mutate({ id: id ?? '', name: navigationName, items, deletedItems });
+    mutate({
+      ...(navigationId && { id: navigationId }),
+      name: navigationName,
+      items,
+      deletedItems,
+    });
   };
 
   const handleDelete = async () => {

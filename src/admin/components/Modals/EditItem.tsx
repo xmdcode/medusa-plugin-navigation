@@ -2,13 +2,9 @@ import { FC, useState } from 'react';
 import { Button, Drawer, Input, Label } from '@medusajs/ui';
 import { ModalProps } from './AddNewItem';
 import { updateItemById } from '../utils/list-utils';
-import { MinimalTreeItemData } from '../TreeNavigation';
 import { useNavigationData } from '../context/NavigationItemsContext';
 
-interface EditItemProps extends Omit<ModalProps, 'setNewItem'> {
-  // items: MinimalTreeItemData[];
-  // setItems(arg0: MinimalTreeItemData[]): void;
-}
+interface EditItemProps extends Omit<ModalProps, 'setNewItem'> {}
 const EditItem: FC<EditItemProps> = (props) => {
   const {
     activeItem,

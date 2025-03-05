@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { createNestedNavigation } from './../../../modules/navigation/utils/utils';
 
 import { MedusaRequest, MedusaResponse } from '@medusajs/framework/http';
 import NavigationModuleService from '../../../modules/navigation/service';
@@ -23,35 +22,38 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
   const navigationModuleService: NavigationModuleService =
     req.scope.resolve(NAVIGATION_MODULE);
 
-  const { id, name, items } = req.body;
+  const { name, items } = req.body;
+
+  const newNavigation = navigationModuleService.createNestedNavigation(
+    navigationModuleService,
+    name,
+    items
+  );
+
+  return res.json('ok');
+}
+
+export async function PUT(req: MedusaRequest, res: MedusaResponse) {
+  const navigationModuleService: NavigationModuleService =
+    req.scope.resolve(NAVIGATION_MODULE);
+
+  const { id, name, items, deletedItems } = req.body;
 
   try {
-    const navigationExists = await navigationModuleService.retrieveNavigation(
-      id
-    );
-  } catch (error) {
-    const newNavigation = createNestedNavigation(
+    const deletedNavItems = navigationModuleService.deleteNavItems(
       navigationModuleService,
+      deletedItems
+    );
+    // console.log(items);
+    const newNavigation = navigationModuleService.updateNestedNavigation(
+      navigationModuleService,
+      id,
       name,
       items
     );
 
     return res.json('ok');
+  } catch (error) {
+    return res.json('not ok');
   }
-
-  // const newNavigation = await navigationModuleService.updateNavigationTree(
-  //   req.body['id'],
-  //   {
-  //     name: req.body['name'],
-  //     items: req.body['items'],
-  //   }
-  // );
-
-  // if (req.body['deletedItems'].length > 0) {
-  //   for (let deletedItem of req.body['deletedItems']) {
-  //     await navigationModuleService.deleteItem(deletedItem.id);
-  //   }
-  // }
-  // res.json({ newNavigation });
-  res.json('hello');
 }

@@ -226,6 +226,7 @@
             "id"
           ],
           "referencedTableName": "public.navigation",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         },
         "navigation_item_parent_id_foreign": {

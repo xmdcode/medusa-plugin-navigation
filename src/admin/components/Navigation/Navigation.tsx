@@ -4,13 +4,12 @@ import NavigationWrapper from './NavigationWrapper';
 
 export interface NavigationProps {
   page: 'new' | 'edit';
-  id?: string;
 }
 const Navigation: FC<NavigationProps> = (props) => {
-  const { page, id } = props;
+  const { page } = props;
   return (
     <NavigationContextProvider>
-      <NavigationWrapper id={id} page={page} />
+      <NavigationWrapper page={page} />
     </NavigationContextProvider>
   );
 };

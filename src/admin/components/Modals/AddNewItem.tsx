@@ -15,7 +15,7 @@ const AddNewItem: React.FC<ModalProps> = (props) => {
   const handleClose = () => {
     setIsNewModalOpen(false);
   };
-  const [errors, SetErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,15 +23,22 @@ const AddNewItem: React.FC<ModalProps> = (props) => {
     const url = e.target.url.value;
 
     if (!name) {
-      SetErrors((prev) => ({ ...prev, name: true }));
+      return setErrors((prev) => ({ ...prev, name: true }));
     } else {
-      SetErrors((prev) => ({ ...prev, name: false }));
+      setErrors((prev) => {
+        const { name, ...rest } = prev;
+        return rest;
+      });
     }
 
+    console.log(url);
     if (!url) {
-      SetErrors((prev) => ({ ...prev, url: true }));
+      return setErrors((prev) => ({ ...prev, url: true }));
     } else {
-      SetErrors((prev) => ({ ...prev, url: false }));
+      setErrors((prev) => {
+        const { url, ...rest } = prev;
+        return rest;
+      });
     }
 
     if (name && url) {

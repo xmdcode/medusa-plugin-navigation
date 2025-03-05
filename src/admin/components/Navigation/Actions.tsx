@@ -17,6 +17,7 @@ const Actions: FC<ActionsProps> = () => {
     navigationName,
     items,
     navigationId,
+    setNavigationNameError,
     refetchNavigation,
   } = useNavigationData();
 
@@ -26,7 +27,11 @@ const Actions: FC<ActionsProps> = () => {
         method: navigationId ? 'PUT' : 'POST',
         body: { ...payload },
       }),
-    onSuccess: () => refetchNavigation(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['navigations'] });
+      refetchNavigation();
+      navigate('/navigation');
+    },
   });
 
   const { mutateAsync: deleteMutate } = useMutation({
@@ -42,12 +47,18 @@ const Actions: FC<ActionsProps> = () => {
   });
 
   const handleClick = () => {
-    mutate({
-      ...(navigationId && { id: navigationId }),
-      name: navigationName,
-      items,
-      deletedItems,
-    });
+    if (!navigationName) {
+      setNavigationNameError(true);
+    } else {
+      setNavigationNameError(false);
+
+      mutate({
+        ...(navigationId && { id: navigationId }),
+        name: navigationName,
+        items,
+        deletedItems,
+      });
+    }
   };
 
   const handleDelete = async () => {

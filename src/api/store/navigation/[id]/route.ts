@@ -30,5 +30,5 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   };
   // const tree = await navService.getNavigationTree(req.params.id);
   // res.json(tree);
-  res.json(navigationItem);
+  res.json(tree);
 }

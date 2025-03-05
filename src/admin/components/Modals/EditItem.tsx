@@ -18,7 +18,7 @@ const EditItem: FC<EditItemProps> = (props) => {
     setIsEditModalOpen(false);
   };
 
-  const [errors, SetErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,15 +26,21 @@ const EditItem: FC<EditItemProps> = (props) => {
     const url = e.target.url.value;
 
     if (!name) {
-      SetErrors((prev) => ({ ...prev, name: true }));
+      setErrors((prev) => ({ ...prev, name: true }));
     } else {
-      SetErrors((prev) => ({ ...prev, name: false }));
+      setErrors((prev) => {
+        const { name, ...rest } = prev;
+        return rest;
+      });
     }
 
     if (!url) {
-      SetErrors((prev) => ({ ...prev, url: true }));
+      setErrors((prev) => ({ ...prev, url: true }));
     } else {
-      SetErrors((prev) => ({ ...prev, url: false }));
+      setErrors((prev) => {
+        const { url, ...rest } = prev;
+        return rest;
+      });
     }
 
     if (name && url) {
@@ -62,8 +68,8 @@ const EditItem: FC<EditItemProps> = (props) => {
                 placeholder="ex. Menu Item 1"
                 defaultValue={activeItem?.name}
                 id="name"
-                name="title"
-                aria-invalid={errors['title'] ? true : false}
+                name="name"
+                aria-invalid={errors['name'] ? true : false}
               />
             </div>
             <div className="w-full flex flex-col space-y-2">

@@ -36,9 +36,8 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
   const handleAddNew = () => {
     setIsNewModalOpen(true);
   };
-  console.log(items);
 
-  const url = window.location.host;
+  // const url = window?.location?.host;
   return (
     <>
       <Container className="flex flex-col space-y-3">
@@ -78,7 +77,7 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
             )}
           </div>
         </div>
-        {page !== 'new' && (
+        {/* {page !== 'new' && (
           <div className="w-full flex flex-col space-y-4">
             <Text>Url of Navigation</Text>
             <TooltipProvider>
@@ -92,7 +91,7 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
               </Command>
             </TooltipProvider>
           </div>
-        )}
+        )} */}
       </Container>
 
       <AddNewItem setNewItem={(item) => setItems((prev) => [...prev, item])} />

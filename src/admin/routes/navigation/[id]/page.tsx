@@ -1,8 +1,7 @@
 import Navigation from '../../../components/Navigation/Navigation';
 
 const ExistingNavigation = () => {
-  // return <Navigation page="edit" />;
-  return 'hi';
+  return <Navigation page="edit" />;
 };
 
 export default ExistingNavigation;

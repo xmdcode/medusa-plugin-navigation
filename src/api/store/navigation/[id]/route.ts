@@ -10,12 +10,12 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const { data } = await query.graph({
     entity: 'navigation',
     fields: [
-      '*',
+      // '*',
       'items.id',
       'items.name',
       'items.url',
       'items.index',
-      'items.navigation_id',
+      // 'items.navigation_id',
       'items.parent_id',
     ],
     filters: {
@@ -32,3 +32,5 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   // res.json(tree);
   res.json(tree);
 }
+
+export const AUTHENTICATE = false;

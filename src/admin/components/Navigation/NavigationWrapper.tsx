@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Container,
-  Button,
-  Text,
-  Input,
-  Command,
-  Badge,
-  TooltipProvider,
-} from '@medusajs/ui';
+import { Container, Button, Text, Input } from '@medusajs/ui';
 import { PlusMini, Sparkles } from '@medusajs/icons';
 
 import { TreeNavigation } from '../TreeNavigation';
@@ -16,6 +8,7 @@ import EditItem from '../Modals/EditItem';
 import DeleteItem from '../Modals/DeleteItem';
 import { useNavigationData } from '../context/NavigationItemsContext';
 import Actions, { ActionsProps } from './Actions';
+import CommandCopy from './CommandCopy';
 
 export interface NavigationWrapperProps {
   page: ActionsProps['page'];
@@ -37,7 +30,7 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
     setIsNewModalOpen(true);
   };
 
-  // const url = window?.location?.host;
+  const url = window?.location?.host;
   return (
     <>
       <Container className="flex flex-col space-y-3">
@@ -45,7 +38,6 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
         <div className="flex flex-col">
           <div className="flex flex-col space-y-4">
             <Text>Title of {page === 'new' && 'New'} Navigation</Text>
-
             <Input
               value={navigationName}
               onChange={(e) => setNavigationName(e.target.value)}
@@ -77,21 +69,9 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = (props) => {
             )}
           </div>
         </div>
-        {/* {page !== 'new' && (
-          <div className="w-full flex flex-col space-y-4">
-            <Text>Url of Navigation</Text>
-            <TooltipProvider>
-              <Command>
-                <Badge color="green">Get</Badge>
-                <code>{`${url}/store/navigation/${navigationId}`}</code>
-                <Command.Copy
-                  content={`${url}/store/navigation/${navigationId}`}
-                  className="ml-auto"
-                />
-              </Command>
-            </TooltipProvider>
-          </div>
-        )} */}
+        {page !== 'new' && (
+          <CommandCopy url={url} navigationId={navigationId} />
+        )}
       </Container>
 
       <AddNewItem setNewItem={(item) => setItems((prev) => [...prev, item])} />

@@ -1,64 +1,56 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa Plugin Starter
-</h1>
+# Medusa Navigation Menu
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+This is a plugin for **MedusaJS 2.7.0+** designed to create basic navigations/menu for the frontend of a MedusaJS project. The project is just getting started and there's still lots of work to be done.
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+---
 
-## Compatibility
+## ✨ Features
 
-This starter is compatible with versions >= 2.4.0 of `@medusajs/medusa`. 
+- Create custom navigations with up to **2 levels of depth**
+- Rearrange the index of each item to match your preferred order
+- Exposes custom API endpoints for use in frontend frameworks like:
+  - **Next.js**
+  - **Remix.js**
+  - **Angular.js**
+  - Or any other frontend of your choice paired with MedusaJS
 
-## Getting Started
+---
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn/installation) to set up a server.
+## 🚀 Usage
 
-Visit the [Plugins documentation](https://docs.medusajs.com/learn/fundamentals/plugins) to learn more about plugins and how to create them.
+### Plugin Options
 
-Visit the [Docs](https://docs.medusajs.com/learn/installation#get-started) to learn more about our system requirements.
+To enable **Admin UI extensions**, please update your `medusa-config.ts` with the following:
 
-## What is Medusa
+```ts
+plugins: [
+  {
+    resolve: 'medusa-navigation-menu',
+    options: {},
+  },
+],
+admin: {
+  vite: () => {
+    return {
+      optimizeDeps: {
+        include: ['qs'],
+      },
+    };
+  },
+},
+```
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+Then you need to install it with the following dependencies
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/introduction/architecture) and [commerce modules](https://docs.medusajs.com/learn/fundamentals/modules/commerce-modules) in the Docs.
+```
+npm i medusa-navigation-menu @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities dnd-kit-sortable-tree
 
-## Community & Contributions
+```
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+To access the custom endpoint for each navigation you must have a Publishable API key required in the request header: x-publishable-api-key. You can manage your keys in settings in the dashboard of your medusajs project.
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+### 🤝 Contributing
 
-## Other channels
+This project is in its early stages. Contributions are welcome 💚🙏
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+Feel free to open issues, suggest improvements, or submit pull requests.

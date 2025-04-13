@@ -47,6 +47,7 @@ export const useNavigationData = (): NavigationContextProvider => {
 export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
   const { id } = useParams();
 
+  console.log(id);
   const { data, refetch: refetchNavigation } = useQuery({
     queryFn: () => sdk.client.fetch(`/admin/navigations/${id}`),
     queryKey: ['navigation', id],
@@ -54,6 +55,7 @@ export const NavigationContextProvider = ({ children }: PropsWithChildren) => {
     enabled: !!id,
   });
 
+  console.log(id);
   const [isNewModalOpen, setIsNewModalOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);

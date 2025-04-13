@@ -47,6 +47,13 @@ npm i medusa-navigation-menu @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities 
 
 ```
 
+then do the necessary migrate to add the required array in database
+
+```
+npx medusa db:migrate
+
+```
+
 To access the custom endpoint for each navigation you must have a Publishable API key required in the request header: x-publishable-api-key. You can manage your keys in settings in the dashboard of your medusajs project.
 
 ### 🤝 Contributing

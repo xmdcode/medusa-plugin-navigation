@@ -66,7 +66,7 @@ const NavigationsPage = () => {
                       <Table.Cell className="w-[250px]">
                         <Link
                           to={`/navigation/${navigation.id}`}
-                          className="hover:text-blue-60 duration-100 transition ease-in-out">
+                          className="underline hover:text-blue-60 duration-100 transition ease-in-out">
                           {navigation.name}
                         </Link>
                       </Table.Cell>
